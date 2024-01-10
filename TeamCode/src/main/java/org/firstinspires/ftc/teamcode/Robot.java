@@ -9,9 +9,9 @@ public class Robot {
     public final DcMotor rightRearMotor;
     public final DcMotor leftRearMotor;
 
-    public final DcMotor leftElevator;
-
-    public final DcMotor rightElevator;
+//    public final DcMotor leftElevator;
+//
+//    public final DcMotor rightElevator;
 
     public Robot(HardwareMap hardwareMap) {
 
@@ -29,16 +29,16 @@ public class Robot {
 
         // Elevator
 
-        leftElevator = hardwareMap.get(DcMotor.class, "left_linkage");
-        rightElevator = hardwareMap.get(DcMotor.class, "right_linkage");
-
-        leftElevator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightElevator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        leftElevator.setDirection(DcMotor.Direction.FORWARD);
-        rightElevator.setDirection(DcMotor.Direction.REVERSE);
-
-        leftElevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightElevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftElevator = hardwareMap.get(DcMotor.class, "left_linkage");
+//        rightElevator = hardwareMap.get(DcMotor.class, "right_linkage");
+//
+//        leftElevator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightElevator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//
+//        leftElevator.setDirection(DcMotor.Direction.FORWARD);
+//        rightElevator.setDirection(DcMotor.Direction.REVERSE);
+//
+//        leftElevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightElevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }
