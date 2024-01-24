@@ -26,15 +26,11 @@ public class TestingOpMode extends LinearOpMode {
     }
 
     void drive() {
-        float y = -gamepad1.left_stick_y;
-        float x = gamepad1.left_stick_x;
-        float rx = gamepad1.right_stick_x;
+        // We are negating the y values because up is negative on the joysticks (from what I remember?).
+        double leftPower = -gamepad1.left_stick_y;
+        double rightPower = -gamepad1.right_stick_y;
 
-        double scalar = (1 - 0.5 * gamepad1.right_trigger) / Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-
-        bot.rightFrontMotor.setPower((-rx + y - x) * scalar);
-        bot.leftFrontMotor.setPower((rx + y + x) * scalar);
-        bot.rightRearMotor.setPower((-rx + y + x) * scalar);
-        bot.leftRearMotor.setPower((rx + y - x) * scalar);
+        bot.setLeftPower(leftPower);
+        bot.setRightPower(rightPower);
     }
 }
