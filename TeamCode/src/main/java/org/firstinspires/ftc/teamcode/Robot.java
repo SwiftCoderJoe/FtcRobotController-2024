@@ -41,4 +41,16 @@ public class Robot {
 //        leftElevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        rightElevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
+    // Method to set power for the left side
+    public void setLeftPower(double power) {
+        leftFrontMotor.setPower(power);
+        leftRearMotor.setPower(power);
+    }
+
+    // Method to set power for the right side
+    public void setRightPower(double power) {
+        rightFrontMotor.setPower(power);
+        rightRearMotor.setPower(power);
+    }
 }
