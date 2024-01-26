@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@TeleOp(name="Field Centric Movement", group="Joe Himself")
+@TeleOp(name="Field Centric Movement", group="Joe and Skula")
 public class FieldCentricMovement extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -17,14 +17,15 @@ public class FieldCentricMovement extends LinearOpMode {
         DcMotor backLeftMotor = hardwareMap.dcMotor.get("bl");
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("fr");
         DcMotor backRightMotor = hardwareMap.dcMotor.get("br");
-        // DcMotor leftLinkage = hardwareMap.dcMotor.get("left_linkage");
-        // DcMotor rightLinkage = hardwareMap.dcMotor.get("right_linkage");
-        // Servo v4b = hardwareMap.servo.get("v4b");
 
         DcMotor blackWheels = hardwareMap.dcMotor.get("black_wheels"); // expansion hub port 1
+        blackWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
         DcMotor linearSlide = hardwareMap.dcMotor.get("linear_slide"); // expansion hub port 0
-        //DcMotor verticalSlide = hardwareMap.dcMotor.get("vertical_slide"); // e
+        blackWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         Servo topOfSlide = hardwareMap.servo.get("top_of_slide"); // expansion port 0
+
         Servo handleRotater = hardwareMap.servo.get("handle_rotater"); // Horizontal Rotater of the Arm (connection TBD)
 
 
@@ -36,8 +37,8 @@ public class FieldCentricMovement extends LinearOpMode {
         leftLinkage.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightLinkage.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);*/
 
-        // Toggles
-        boolean aToggle = false;
+        // Button States
+        boolean aButtonState = false;
 
         // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -46,6 +47,11 @@ public class FieldCentricMovement extends LinearOpMode {
                 RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
         imu.initialize(parameters);
+
+        telemetry.addData("Top of Slide Position:", topOfSlide.getPosition());
+        telemetry.addData("Handle Rotator Position:", handleRotater.getPosition());
+
+        telemetry.update();
 
         waitForStart();
 
@@ -84,32 +90,34 @@ public class FieldCentricMovement extends LinearOpMode {
             backLeftMotor.setPower(speedVar*backLeftPower);
             frontRightMotor.setPower(speedVar*frontRightPower);
             backRightMotor.setPower(speedVar*backRightPower);
-            /*
-            if (gamepad1.y) {
-                v4b.setPosition(0.75);
-                leftLinkage.setTargetPosition(-180);
-                rightLinkage.setTargetPosition(180);
-                leftLinkage.setPower(1);
-                rightLinkage.setPower(1);
-                leftLinkage.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightLinkage.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
-            */
+
+            // Neutral State
             if (gamepad1.b) {
-                handleRotater.setPosition(0.5);
-                topOfSlide.setPosition(0.2);
-                linearSlide.setTargetPosition(-240);
-                linearSlide.setPower(0.1);
-                linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                handleRotater.setPosition(0);
+                topOfSlide.setPosition(0.35);
+//                linearSlide.setTargetPosition(-240);
+//                linearSlide.setPower(0.1);
+//                linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
+
+            // Up State
+            if (gamepad1.y) {
+                topOfSlide.setPosition(0.7);
+            }
+
+            // Dump State
+            if (gamepad1.x) {
+                handleRotater.setPosition(1);
+            }
+
             // Black Wheels
-            if(gamepad1.a && !aToggle) {
+            if(gamepad1.a && !aButtonState) {
                 if(blackWheels.getPower() == 0) blackWheels.setPower(-0.5);
                 else blackWheels.setPower(0);
-                aToggle = true;
-            } else if(!gamepad1.a) aToggle = false;
+                aButtonState = true;
+            } else if(!gamepad1.a) aButtonState = false;
 
-            /*
+            /* SKULA'S CODE FOR REFERENCE
             if (gamepad1.left_trigger > 0.75) {
                 linearSlide.setPower(-0.5);
             }
@@ -123,7 +131,19 @@ public class FieldCentricMovement extends LinearOpMode {
             if (gamepad1.right_trigger > 0.75) {
                 handleRotater.setPower(0.5)
             }
+            */
 
+            if (gamepad1.right_trigger > .1) {
+                // UP
+                linearSlide.setPower(-gamepad1.right_trigger);
+            } else if (gamepad1.left_trigger > .1) {
+                // DOWN
+                linearSlide.setPower(gamepad1.left_trigger);
+            } else {
+                linearSlide.setPower(0);
+            }
+
+            /* OLD CODE FROM LAST YEAR
             if (gamepad1.dpad_left) {
                 v4b.setPosition(0);
             }
