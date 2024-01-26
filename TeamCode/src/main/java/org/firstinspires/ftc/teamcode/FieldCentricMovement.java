@@ -21,11 +21,11 @@ public class FieldCentricMovement extends LinearOpMode {
         // DcMotor rightLinkage = hardwareMap.dcMotor.get("right_linkage");
         // Servo v4b = hardwareMap.servo.get("v4b");
 
-        //DcMotor blackWheels = hardwareMap.dcMotor.get("black_wheels"); // port TBD
-        //DcMotor linearSlide = hardwareMap.dcMotor.get("linear_slide"); // port TBD
-        //DcMotor verticalSlide = hardwareMap.dcMotor.get("vertical_slide"); // port TBD, this one isn't built yet
-        //Servo topOfSlide = hardwareMap.servo.get("top_of_slide"); // port TBD
-        //Servo handleRotater = hardwareMap.servo.get("handle_rotater"); // Horizontal Rotater of the Arm (connection TBD)
+        DcMotor blackWheels = hardwareMap.dcMotor.get("black_wheels"); // expansion hub port 1
+        DcMotor linearSlide = hardwareMap.dcMotor.get("linear_slide"); // expansion hub port 0
+        //DcMotor verticalSlide = hardwareMap.dcMotor.get("vertical_slide"); // e
+        Servo topOfSlide = hardwareMap.servo.get("top_of_slide"); // expansion port 0
+        Servo handleRotater = hardwareMap.servo.get("handle_rotater"); // Horizontal Rotater of the Arm (connection TBD)
 
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -35,6 +35,9 @@ public class FieldCentricMovement extends LinearOpMode {
         rightLinkage.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftLinkage.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightLinkage.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);*/
+
+        // Toggles
+        boolean aToggle = false;
 
         // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -49,8 +52,8 @@ public class FieldCentricMovement extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            double y = gamepad1.left_stick_y;
-            double x = gamepad1.left_stick_x;
+            double y = -gamepad1.left_stick_y;
+            double x = -gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
             double speedVar = 1.25-gamepad1.right_trigger;
             // This button choice was made so that it is hard to hit on accident,
@@ -91,29 +94,27 @@ public class FieldCentricMovement extends LinearOpMode {
                 leftLinkage.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 rightLinkage.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
+            */
             if (gamepad1.b) {
-                v4b.setPosition(0.75);
-                leftLinkage.setTargetPosition(-120);
-                rightLinkage.setTargetPosition(120);
-                leftLinkage.setPower(1);
-                rightLinkage.setPower(1);
-                leftLinkage.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightLinkage.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                handleRotater.setPosition(0.5);
+                topOfSlide.setPosition(0.2);
+                linearSlide.setTargetPosition(-240);
+                linearSlide.setPower(0.1);
+                linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
-            if (gamepad1.a) {
-                v4b.setPosition(0.7);
-                leftLinkage.setTargetPosition(0);
-                rightLinkage.setTargetPosition(0);
-                leftLinkage.setPower(0.5);
-                rightLinkage.setPower(0.5);
-                leftLinkage.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightLinkage.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            // Black Wheels
+            if(gamepad1.a && !aToggle) {
+                if(blackWheels.getPower() == 0) blackWheels.setPower(-0.5);
+                else blackWheels.setPower(0);
+                aToggle = true;
+            } else if(!gamepad1.a) aToggle = false;
+
+            /*
+            if (gamepad1.left_trigger > 0.75) {
+                linearSlide.setPower(-0.5);
             }
             if (gamepad1.left_bumper) {
-                claw.setPosition(1);
-            }
-            if (gamepad1.left_trigger > 0.75) {
-                claw.setPosition(0.8);
+                linearSlide.setPower(0);
             }
             // Horizontal Spinning of Paddle
             if (gamepad1.right_bumper) {
