@@ -21,7 +21,7 @@ public class FieldCentricMovement extends LinearOpMode {
         DcMotor blackWheels = hardwareMap.dcMotor.get("black_wheels"); // expansion hub port 1
         blackWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        DcMotor linearSlide = hardwareMap.dcMotor.get("linear_slide"); // expansion hub port 0
+        DcMotor linearSlide = hardwareMap.dcMotor.get("linear_slide"); // expansion hub port ?
         blackWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         Servo topOfSlide = hardwareMap.servo.get("top_of_slide"); // expansion port 0
@@ -39,7 +39,7 @@ public class FieldCentricMovement extends LinearOpMode {
 
         // Button States
         boolean aButtonState = false;
-        boolean bButtonState = false;
+        boolean rightBumperButtonState = false;
 
         // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -119,11 +119,11 @@ public class FieldCentricMovement extends LinearOpMode {
             } else if(!gamepad1.a) aButtonState = false;
 
             // Reverse Black Wheels
-            if(gamepad1.b && !bButtonState) {
+            if(gamepad1.right_bumper && !rightBumperButtonState) {
                 if(blackWheels.getPower() <= 0) blackWheels.setPower(0.5);
                 else blackWheels.setPower(0);
-                bButtonState = true;
-            } else if(!gamepad1.b) bButtonState = false;
+                rightBumperButtonState = true;
+            } else if(!gamepad1.right_bumper) rightBumperButtonState = false;
 
             /* SKULA'S CODE FOR REFERENCE
             if (gamepad1.left_trigger > 0.75) {
