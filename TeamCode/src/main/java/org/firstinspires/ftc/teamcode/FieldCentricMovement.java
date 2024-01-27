@@ -39,6 +39,7 @@ public class FieldCentricMovement extends LinearOpMode {
 
         // Button States
         boolean aButtonState = false;
+        boolean bButtonState = false;
 
         // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -116,6 +117,13 @@ public class FieldCentricMovement extends LinearOpMode {
                 else blackWheels.setPower(0);
                 aButtonState = true;
             } else if(!gamepad1.a) aButtonState = false;
+
+            // Reverse Black Wheels
+            if(gamepad1.b && !bButtonState) {
+                if(blackWheels.getPower() <= 0) blackWheels.setPower(0.5);
+                else blackWheels.setPower(0);
+                bButtonState = true;
+            } else if(!gamepad1.b) bButtonState = false;
 
             /* SKULA'S CODE FOR REFERENCE
             if (gamepad1.left_trigger > 0.75) {
