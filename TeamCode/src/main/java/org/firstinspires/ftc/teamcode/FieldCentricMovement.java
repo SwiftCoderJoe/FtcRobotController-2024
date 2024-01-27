@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@TeleOp(name="Field Centric Movement", group="Joe and Skula")
+@TeleOp(name="Field Centric Movement", group="Skula and Joe")
 public class FieldCentricMovement extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
