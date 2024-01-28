@@ -29,8 +29,9 @@ public class FieldCentricMovement extends LinearOpMode {
         Servo handleRotater = hardwareMap.servo.get("handle_rotater"); // Horizontal Rotater of the Arm (connection TBD)
 
 
-        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+
 
         /*leftLinkage.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightLinkage.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -39,7 +40,11 @@ public class FieldCentricMovement extends LinearOpMode {
 
         // Button States
         boolean aButtonState = false;
+        boolean bButtonState = false;
+        boolean xButtonState = false;
         boolean rightBumperButtonState = false;
+
+        boolean handlePointingDown = false;
 
         // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -49,66 +54,77 @@ public class FieldCentricMovement extends LinearOpMode {
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
         imu.initialize(parameters);
 
-        telemetry.addData("Top of Slide Position:", topOfSlide.getPosition());
-        telemetry.addData("Handle Rotator Position:", handleRotater.getPosition());
-
-        telemetry.update();
-
         waitForStart();
 
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            double y = -gamepad1.left_stick_y;
-            double x = -gamepad1.left_stick_x;
-            double rx = gamepad1.right_stick_x;
-            double speedVar = 1.25-gamepad1.right_trigger;
+            double speedVar = gamepad1.left_bumper ? .3 : 1;
             // This button choice was made so that it is hard to hit on accident,
             // it can be freely changed based on preference.
             // The equivalent button is start on Xbox-style controllers
-            if (gamepad1.options) {
-                imu.resetYaw();
-            }
+//            if (gamepad1.options) {
+//                imu.resetYaw();
+//            }
+//
+//            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+//
+//            // Rotate the movement direction counter to the bot's rotation
+//            double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
+//            double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
 
-            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-
-            // Rotate the movement direction counter to the bot's rotation
-            double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
-            double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
-
-            rotX = rotX * 1.1;  // Counteract imperfect strafing
+            // rotX = rotX * 1.1;  // Counteract imperfect strafing
 
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio,
             // but only if at least one is out of the range [-1, 1]
-            double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
-            double frontLeftPower = (rotY + rotX + rx) / denominator;
-            double backLeftPower = (rotY - rotX + rx) / denominator;
-            double frontRightPower = (rotY - rotX - rx) / denominator;
-            double backRightPower = (rotY + rotX - rx) / denominator;
 
-            frontLeftMotor.setPower(speedVar*frontLeftPower);
-            backLeftMotor.setPower(speedVar*backLeftPower);
-            frontRightMotor.setPower(speedVar*frontRightPower);
-            backRightMotor.setPower(speedVar*backRightPower);
+            float y = -gamepad1.left_stick_y;
+            float x = gamepad1.left_stick_x;
+            float rx = gamepad1.right_stick_x;
+
+            telemetry.addData("y value", y);
+
+            double scalar = (speedVar) / Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+
+            frontRightMotor.setPower((-rx + y - x) * scalar);
+            frontLeftMotor.setPower((rx + y - x) * scalar);
+            backRightMotor.setPower((-rx + y + x) * scalar);
+            backLeftMotor.setPower((rx + y + x) * scalar);
 
             // Neutral State
-            if (gamepad1.b) {
+            if (gamepad1.b && !bButtonState) {
+                xButtonState = false;
+                bButtonState = true;
+                // Ideally further over
                 handleRotater.setPosition(0);
-                topOfSlide.setPosition(0.35);
-//                linearSlide.setTargetPosition(-240);
-//                linearSlide.setPower(0.1);
-//                linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                topOfSlide.setPosition(0.29);
+            }
+            if (!gamepad1.b && bButtonState) {
+                bButtonState = false;
+                // Normal 'b button state'
+                handleRotater.setPosition(0);
+                topOfSlide.setPosition(0.34);
             }
 
             // Up State
             if (gamepad1.y) {
-                topOfSlide.setPosition(0.7);
+                topOfSlide.setPosition(0.75);
             }
 
             // Dump State
-            if (gamepad1.x) {
-                handleRotater.setPosition(1);
+            if (gamepad1.x && !xButtonState) {
+                xButtonState = true;
+                if (handlePointingDown) {
+                    handleRotater.setPosition(0);
+                    handlePointingDown = false;
+                } else {
+                    handlePointingDown = true;
+                    handleRotater.setPosition(1);
+                }
+            }
+            if (!gamepad1.x) {
+                xButtonState = false;
             }
 
             // Black Wheels
