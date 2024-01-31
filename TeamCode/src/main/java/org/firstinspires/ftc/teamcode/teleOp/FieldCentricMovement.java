@@ -1,50 +1,22 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.teleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp(name="Field Centric Movement", group="Skula and Joe")
 public class FieldCentricMovement extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        DcMotor frontLeftMotor = hardwareMap.dcMotor.get("fl");
-        DcMotor backLeftMotor = hardwareMap.dcMotor.get("bl");
-        DcMotor frontRightMotor = hardwareMap.dcMotor.get("fr");
-        DcMotor backRightMotor = hardwareMap.dcMotor.get("br");
 
-        DcMotor blackWheels = hardwareMap.dcMotor.get("black_wheels"); // expansion hub port 1
-        blackWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-
-        DcMotor linearSlide = hardwareMap.dcMotor.get("linear_slide"); // expansion hub port ?
-        blackWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        Servo topOfSlide = hardwareMap.servo.get("top_of_slide"); // expansion port 0
-
-        Servo handleRotater = hardwareMap.servo.get("handle_rotater"); // Horizontal Rotater of the Arm (connection TBD)
-
-
-        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-
-
-        /*leftLinkage.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightLinkage.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftLinkage.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightLinkage.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);*/
+        Robot bot = new Robot(hardwareMap);
 
         // Button States
         boolean aButtonState = false;
         boolean bButtonState = false;
         boolean xButtonState = false;
         boolean rightBumperButtonState = false;
-
-        boolean handlePointingDown = false;
 
         // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -83,88 +55,71 @@ public class FieldCentricMovement extends LinearOpMode {
             float x = gamepad1.left_stick_x;
             float rx = gamepad1.right_stick_x;
 
-            telemetry.addData("y value", y);
-
             double scalar = (speedVar) / Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
 
-            frontRightMotor.setPower((-rx + y - x) * scalar);
-            frontLeftMotor.setPower((rx + y - x) * scalar);
-            backRightMotor.setPower((-rx + y + x) * scalar);
-            backLeftMotor.setPower((rx + y + x) * scalar);
+            bot.rightFrontMotor.setPower((-rx + y - x) * scalar);
+            bot.leftFrontMotor.setPower((rx + y - x) * scalar);
+            bot.rightRearMotor.setPower((-rx + y + x) * scalar);
+            bot.leftRearMotor.setPower((rx + y + x) * scalar);
 
             // Neutral State
             if (gamepad1.b && !bButtonState) {
                 xButtonState = false;
                 bButtonState = true;
-                // Ideally further over
-                handleRotater.setPosition(0);
-                topOfSlide.setPosition(0.29);
+                // Closer to the rear of the bot
+                bot.handleRotator.setPosition(0);
+                bot.topOfSlide.setPosition(0.29);
             }
             if (!gamepad1.b && bButtonState) {
                 bButtonState = false;
                 // Normal 'b button state'
-                handleRotater.setPosition(0);
-                topOfSlide.setPosition(0.34);
+                bot.handleRotator.setPosition(0);
+                bot.topOfSlide.setPosition(0.34);
             }
 
             // Up State
             if (gamepad1.y) {
-                topOfSlide.setPosition(0.75);
+                bot.topOfSlide.setPosition(0.75);
             }
 
             // Dump State
             if (gamepad1.x && !xButtonState) {
                 xButtonState = true;
-                if (handlePointingDown) {
-                    handleRotater.setPosition(0);
-                    handlePointingDown = false;
-                } else {
-                    handlePointingDown = true;
-                    handleRotater.setPosition(1);
-                }
-            }
-            if (!gamepad1.x) {
+                bot.handleRotator.setPosition(
+                        bot.handleRotator.getPosition() == 0 ? 1 : 0
+                );
+            } else if (!gamepad1.x) {
                 xButtonState = false;
             }
 
             // Black Wheels
-            if(gamepad1.a && !aButtonState) {
-                if(blackWheels.getPower() == 0) blackWheels.setPower(-0.5);
-                else blackWheels.setPower(0);
+            if (gamepad1.a && !aButtonState) {
                 aButtonState = true;
-            } else if(!gamepad1.a) aButtonState = false;
+                bot.blackWheels.setPower(
+                        bot.blackWheels.getPower() == 0 ? .9 : 0
+                );
+            } else if (!gamepad1.a) {
+                aButtonState = false;
+            }
 
             // Reverse Black Wheels
-            if(gamepad1.right_bumper && !rightBumperButtonState) {
-                if(blackWheels.getPower() <= 0) blackWheels.setPower(0.5);
-                else blackWheels.setPower(0);
+            if (gamepad1.right_bumper && !rightBumperButtonState) {
                 rightBumperButtonState = true;
-            } else if(!gamepad1.right_bumper) rightBumperButtonState = false;
-
-            /* SKULA'S CODE FOR REFERENCE
-            if (gamepad1.left_trigger > 0.75) {
-                linearSlide.setPower(-0.5);
+                bot.blackWheels.setPower(
+                        bot.blackWheels.getPower() <= 0 ? -0.5 : 0
+                );
+            } else if (!gamepad1.right_bumper) {
+                rightBumperButtonState = false;
             }
-            if (gamepad1.left_bumper) {
-                linearSlide.setPower(0);
-            }
-            // Horizontal Spinning of Paddle
-            if (gamepad1.right_bumper) {
-                handleRotater.setPower(-0.5);
-            }
-            if (gamepad1.right_trigger > 0.75) {
-                handleRotater.setPower(0.5)
-            }
-            */
 
             if (gamepad1.right_trigger > .1) {
                 // UP
-                linearSlide.setPower(-gamepad1.right_trigger);
+                bot.linearSlide.setPower(-gamepad1.right_trigger);
             } else if (gamepad1.left_trigger > .1) {
                 // DOWN
-                linearSlide.setPower(gamepad1.left_trigger);
+                bot.linearSlide.setPower(gamepad1.left_trigger);
             } else {
-                linearSlide.setPower(0);
+                bot.linearSlide.setPower(0);
             }
 
             /* OLD CODE FROM LAST YEAR
