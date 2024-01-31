@@ -96,7 +96,7 @@ public class FieldCentricMovement extends LinearOpMode {
             if (gamepad1.a && !aButtonState) {
                 aButtonState = true;
                 bot.blackWheels.setPower(
-                        bot.blackWheels.getPower() == 0 ? -0.75 : 0
+                        bot.blackWheels.getPower() == 0 ? .9 : 0
                 );
             } else if (!gamepad1.a) {
                 aButtonState = false;
@@ -106,7 +106,7 @@ public class FieldCentricMovement extends LinearOpMode {
             if (gamepad1.right_bumper && !rightBumperButtonState) {
                 rightBumperButtonState = true;
                 bot.blackWheels.setPower(
-                        bot.blackWheels.getPower() <= 0 ? 0.5 : 0
+                        bot.blackWheels.getPower() <= 0 ? -0.5 : 0
                 );
             } else if (!gamepad1.right_bumper) {
                 rightBumperButtonState = false;

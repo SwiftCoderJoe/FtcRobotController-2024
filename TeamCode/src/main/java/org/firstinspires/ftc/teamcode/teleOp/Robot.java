@@ -32,11 +32,16 @@ public class Robot {
         rightRearMotor.setDirection(DcMotor.Direction.FORWARD);
         leftRearMotor.setDirection(DcMotor.Direction.REVERSE);
 
+        rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightRearMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftRearMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         // Other motors
-        blackWheels = hardwareMap.dcMotor.get("black_wheels"); // expansion hub port 1
+        blackWheels = hardwareMap.dcMotor.get("black_wheels"); // expansion hub port 2
         blackWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        linearSlide = hardwareMap.dcMotor.get("linear_slide"); // expansion hub port ?
+        linearSlide = hardwareMap.dcMotor.get("linear_slide"); // expansion hub port 0
         blackWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Servos
