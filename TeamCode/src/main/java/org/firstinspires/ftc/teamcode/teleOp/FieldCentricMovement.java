@@ -1,16 +1,23 @@
 package org.firstinspires.ftc.teamcode.teleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 
-@TeleOp(name="Field Centric Movement", group="Skula and Joe")
+@TeleOp(name="TeleOp", group="Skula and Joe")
 public class FieldCentricMovement extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
         Robot bot = new Robot(hardwareMap);
+
+        // For some reason front left motor is being weird
+        bot.leftRearMotor.setDirection(DcMotor.Direction.FORWARD);
+        bot.leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
+        bot.rightRearMotor.setDirection(DcMotor.Direction.FORWARD);
+        bot.rightFrontMotor.setDirection(DcMotor.Direction.FORWARD);
 
         // Button States
         boolean aButtonState = false;
