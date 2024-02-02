@@ -59,8 +59,8 @@ public class AutoCloseRed extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 0.05)) {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
-            telemetry.update();
         }
+        telemetry.update();
 
         // Step 2:  Spin right for 1.15 seconds
         bot.leftRearMotor.setPower(TURN_SPEED);
@@ -70,8 +70,8 @@ public class AutoCloseRed extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.2)) {
             telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
-            telemetry.update();
         }
+        telemetry.update();
 
         // Step 3:  Drive Forward for 1.5 Seconds
         bot.leftRearMotor.setPower(FORWARD_SPEED);
@@ -81,8 +81,8 @@ public class AutoCloseRed extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.5)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
-            telemetry.update();
         }
+        telemetry.update();
 
         // Step 4:  Stop
         bot.leftRearMotor.setPower(0);
