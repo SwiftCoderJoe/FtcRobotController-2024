@@ -131,11 +131,15 @@ public class FieldCentricMovement extends LinearOpMode {
             }
 
             // Lift Control
+            // For now, we won't use an encoder and instead just hope we don't over run the spool
             if (gamepad1.dpad_up) {
-                bot.lift.setTargetPosition(bot.lift.getCurrentPosition()+5);
                 bot.lift.setPower(0.6);
-                //bot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            } else if (gamepad1.dpad_down) {
+                bot.lift.setPower(-0.6);
+            } else {
+                bot.lift.setPower(0);
             }
+            
             /* OLD CODE FROM LAST YEAR
             if (gamepad1.dpad_left) {
                 v4b.setPosition(0);
