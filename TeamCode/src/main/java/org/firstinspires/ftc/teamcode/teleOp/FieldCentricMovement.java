@@ -139,7 +139,7 @@ public class FieldCentricMovement extends LinearOpMode {
             } else {
                 bot.lift.setPower(0);
             }
-            
+
             /* OLD CODE FROM LAST YEAR
             if (gamepad1.dpad_left) {
                 v4b.setPosition(0);
