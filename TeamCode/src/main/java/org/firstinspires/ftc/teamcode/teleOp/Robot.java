@@ -13,6 +13,7 @@ public class Robot {
     public final DcMotor leftRearMotor;
     public final DcMotor blackWheels;
     public final DcMotor linearSlide;
+    public final DcMotor lift;
 
     // Servos
     public final Servo topOfSlide;
@@ -44,8 +45,13 @@ public class Robot {
         linearSlide = hardwareMap.dcMotor.get("linear_slide"); // expansion hub port 0
         blackWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        lift = hardwareMap.dcMotor.get("lift");
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+
         // Servos
         topOfSlide = hardwareMap.servo.get("top_of_slide"); // expansion port 0
-        handleRotator = hardwareMap.servo.get("handle_rotater"); // Horizontal Rotator of the Arm (connection TBD)
+        handleRotator = hardwareMap.servo.get("handle_rotator"); // expansion port 1
     }
 }

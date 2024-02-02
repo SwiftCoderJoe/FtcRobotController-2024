@@ -86,14 +86,14 @@ public class FieldCentricMovement extends LinearOpMode {
 
             // Up State
             if (gamepad1.y) {
-                bot.topOfSlide.setPosition(0.75);
+                bot.topOfSlide.setPosition(0.5);
             }
 
             // Dump State
             if (gamepad1.x && !xButtonState) {
                 xButtonState = true;
                 bot.handleRotator.setPosition(
-                        bot.handleRotator.getPosition() == 0 ? 1 : 0
+                        bot.handleRotator.getPosition() == 0 ? 0.5 : 0
                 );
             } else if (!gamepad1.x) {
                 xButtonState = false;
@@ -119,6 +119,7 @@ public class FieldCentricMovement extends LinearOpMode {
                 rightBumperButtonState = false;
             }
 
+            // Linear Slide Control
             if (gamepad1.right_trigger > .1) {
                 // UP
                 bot.linearSlide.setPower(-gamepad1.right_trigger);
@@ -129,6 +130,12 @@ public class FieldCentricMovement extends LinearOpMode {
                 bot.linearSlide.setPower(0);
             }
 
+            // Lift Control
+            if (gamepad1.dpad_up) {
+                bot.lift.setTargetPosition(bot.lift.getCurrentPosition()+5);
+                bot.lift.setPower(0.6);
+                //bot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
             /* OLD CODE FROM LAST YEAR
             if (gamepad1.dpad_left) {
                 v4b.setPosition(0);
