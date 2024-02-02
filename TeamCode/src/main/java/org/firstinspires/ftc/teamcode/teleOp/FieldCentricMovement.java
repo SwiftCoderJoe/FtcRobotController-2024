@@ -64,10 +64,10 @@ public class FieldCentricMovement extends LinearOpMode {
 
             double scalar = (speedVar) / Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
 
-            bot.rightFrontMotor.setPower((-rx + y - x) * scalar);
+            bot.rightFrontMotor.setPower((-rx + y - x) * scalar * bot.SPEED_CORRECTION_FACTOR);
             bot.leftFrontMotor.setPower((rx + y - x) * scalar);
-            bot.rightRearMotor.setPower((-rx + y + x) * scalar);
-            bot.leftRearMotor.setPower((rx + y + x) * scalar);
+            bot.rightRearMotor.setPower((-rx + y + x) * scalar * bot.SPEED_CORRECTION_FACTOR);
+            bot.leftRearMotor.setPower((rx + y + x) * scalar * bot.SPEED_CORRECTION_FACTOR);
 
             // Neutral State
             if (gamepad1.b && !bButtonState) {

@@ -19,6 +19,11 @@ public class Robot {
     public final Servo topOfSlide;
     public final Servo handleRotator;
 
+    // Front left wheel is 312 rpm
+    // 312 / 435 = .7172
+    // Therefore we want to scale all motors except front left by this amount, until this is rectified
+    public final double SPEED_CORRECTION_FACTOR = 0.7172;
+
 
     public Robot(HardwareMap hardwareMap) {
 
