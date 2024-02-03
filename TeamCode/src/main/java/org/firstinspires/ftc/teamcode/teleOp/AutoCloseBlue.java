@@ -57,7 +57,7 @@ public class AutoCloseBlue extends LinearOpMode {
         bot.rightRearMotor.setPower(FORWARD_SPEED * bot.SPEED_CORRECTION_FACTOR);
         bot.rightFrontMotor.setPower(FORWARD_SPEED * bot.SPEED_CORRECTION_FACTOR);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.05)) {
+        while (opModeIsActive() && (runtime.seconds() < (0.05 * bot.AUTO_TIME_CORRECTION_FACTOR))) {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
         }
         telemetry.update();
@@ -68,7 +68,7 @@ public class AutoCloseBlue extends LinearOpMode {
         bot.rightRearMotor.setPower(TURN_SPEED * bot.SPEED_CORRECTION_FACTOR);
         bot.rightFrontMotor.setPower(TURN_SPEED * bot.SPEED_CORRECTION_FACTOR);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.2)) {
+        while (opModeIsActive() && (runtime.seconds() < (1.2 * bot.AUTO_TIME_CORRECTION_FACTOR))) {
             telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
         }
         telemetry.update();
@@ -79,7 +79,7 @@ public class AutoCloseBlue extends LinearOpMode {
         bot.rightRearMotor.setPower(FORWARD_SPEED * bot.SPEED_CORRECTION_FACTOR);
         bot.rightFrontMotor.setPower(FORWARD_SPEED * bot.SPEED_CORRECTION_FACTOR);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
+        while (opModeIsActive() && (runtime.seconds() < (1.5 * bot.AUTO_TIME_CORRECTION_FACTOR))) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
         }
         telemetry.update();

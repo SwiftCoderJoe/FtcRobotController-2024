@@ -24,7 +24,10 @@ public class Robot {
     // Front left wheel is 312 rpm
     // 312 / 435 = .7172
     // Therefore we want to scale all motors except front left by this amount, until this is rectified
-    public final double SPEED_CORRECTION_FACTOR = 0.7172;
+    public final double SPEED_CORRECTION_FACTOR = 0.7172413793;
+
+    /// Inverse of `SPEED_CORRECTION_FACTOR
+    public final double AUTO_TIME_CORRECTION_FACTOR = 1.3942307692;
 
 
     public Robot(HardwareMap hardwareMap) {

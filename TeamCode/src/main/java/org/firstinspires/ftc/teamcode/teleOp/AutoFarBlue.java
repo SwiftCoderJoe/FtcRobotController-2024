@@ -57,7 +57,7 @@ public class AutoFarBlue extends LinearOpMode {
         bot.rightRearMotor.setPower(FORWARD_SPEED * bot.SPEED_CORRECTION_FACTOR);
         bot.rightFrontMotor.setPower(FORWARD_SPEED * bot.SPEED_CORRECTION_FACTOR);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.02)) {
+        while (opModeIsActive() && (runtime.seconds() < (0.02 * bot.AUTO_TIME_CORRECTION_FACTOR))) {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
         }
         telemetry.update();
@@ -68,7 +68,7 @@ public class AutoFarBlue extends LinearOpMode {
         bot.rightRearMotor.setPower(TURN_SPEED * bot.SPEED_CORRECTION_FACTOR);
         bot.rightFrontMotor.setPower(TURN_SPEED * bot.SPEED_CORRECTION_FACTOR);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.22)) {
+        while (opModeIsActive() && (runtime.seconds() < (1.22 * bot.AUTO_TIME_CORRECTION_FACTOR))) {
             telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
         }
         telemetry.update();
@@ -79,7 +79,7 @@ public class AutoFarBlue extends LinearOpMode {
         bot.rightRearMotor.setPower(FORWARD_SPEED * bot.SPEED_CORRECTION_FACTOR);
         bot.rightFrontMotor.setPower(FORWARD_SPEED * bot.SPEED_CORRECTION_FACTOR);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 4.6)) {
+        while (opModeIsActive() && (runtime.seconds() < (4.6 * bot.AUTO_TIME_CORRECTION_FACTOR))) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
         }
         telemetry.update();
