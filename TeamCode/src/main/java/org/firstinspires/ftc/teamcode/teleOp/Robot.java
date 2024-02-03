@@ -65,4 +65,9 @@ public class Robot {
         handleRotator = hardwareMap.servo.get("handle_rotator"); // expansion port 1
         planeLauncher = hardwareMap.servo.get("plane_launcher"); // expansion port 2
     }
+
+    void setPanStandardPosition() {
+        this.handleRotator.setPosition(0.15);
+        this.topOfSlide.setPosition(0.35);
+    }
 }

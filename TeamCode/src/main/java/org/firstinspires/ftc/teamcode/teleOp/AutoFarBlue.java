@@ -49,6 +49,8 @@ public class AutoFarBlue extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+        bot.setPanStandardPosition();
+
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Drive forward for 0.02 seconds
@@ -93,5 +95,8 @@ public class AutoFarBlue extends LinearOpMode {
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
+
+        // Wait until the end
+        while(opModeIsActive()) { }
     }
 }

@@ -83,13 +83,12 @@ public class FieldCentricMovement extends LinearOpMode {
                 bButtonState = true;
                 // Closer to the rear of the bot
                 bot.handleRotator.setPosition(0);
-                bot.topOfSlide.setPosition(0.21);
+                bot.topOfSlide.setPosition(0.26);
             }
             if (!gamepad1.b && bButtonState) {
                 bButtonState = false;
                 // Normal 'b button state'
-                bot.handleRotator.setPosition(0);
-                bot.topOfSlide.setPosition(0.26);
+                bot.setPanStandardPosition();
             }
 
             // Up State
@@ -101,7 +100,7 @@ public class FieldCentricMovement extends LinearOpMode {
             if (gamepad1.x && !xButtonState) {
                 xButtonState = true;
                 bot.handleRotator.setPosition(
-                        bot.handleRotator.getPosition() == 0 ? 0.95 : 0
+                        bot.handleRotator.getPosition() <= 0.15 ? 0.95 : 0.15
                 );
             } else if (!gamepad1.x) {
                 xButtonState = false;
@@ -155,15 +154,15 @@ public class FieldCentricMovement extends LinearOpMode {
             // Lift Control
             // For now, we won't use an encoder and instead just hope we don't over run the spool
             if (gamepad1.dpad_up) {
-                bot.lift.setPower(0.6);
+                bot.lift.setPower(1);
             } else if (gamepad1.dpad_down) {
-                bot.lift.setPower(-0.6);
+                bot.lift.setPower(-1);
             } else {
                 bot.lift.setPower(0);
             }
 
             if (gamepad1.dpad_right) {
-                bot.planeLauncher.setPosition(1);
+                bot.planeLauncher.setPosition(0);
             } else {
                 bot.planeLauncher.setPosition(0.5);
             }
