@@ -48,7 +48,8 @@ public class Robot {
         blackWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         linearSlide = hardwareMap.dcMotor.get("linear_slide"); // expansion hub port 0
-        blackWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linearSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linearSlide.setDirection(DcMotorSimple.Direction.REVERSE);
 
         lift = hardwareMap.dcMotor.get("lift");
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

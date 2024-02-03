@@ -14,34 +14,39 @@ public class LinearSlideHoming extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Robot bot = new Robot(hardwareMap);
 
-        // Linear Slide Control
-        if (gamepad1.right_trigger > .1) {
-            // UP
-            slideMoving = true;
-            bot.linearSlide.setPower(-gamepad1.right_trigger);
-        } else if (gamepad1.left_trigger > .1) {
-            // DOWN
-            slideMoving = true;
-            bot.linearSlide.setPower(gamepad1.left_trigger);
-        } else if (slideMoving) {
-            slideMoving = false;
-            telemetry.addData("Linear Slide Position", bot.linearSlide.getCurrentPosition());
-            bot.linearSlide.setPower(0);
-        }
+        waitForStart();
 
-        // Lift Control
-        if (gamepad1.dpad_up) {
-            // UP
-            liftMoving = true;
-            bot.linearSlide.setPower(-gamepad1.right_trigger);
-        } else if (gamepad1.dpad_down) {
-            // DOWN
-            liftMoving = true;
-            bot.linearSlide.setPower(gamepad1.left_trigger);
-        } else if (liftMoving) {
-            liftMoving = false;
-            telemetry.addData("Lift Position", bot.lift.getCurrentPosition());
-            bot.linearSlide.setPower(0);
+        while (opModeIsActive()) {
+            // Linear Slide Control
+            if (gamepad1.right_trigger > .1) {
+                // UP
+                slideMoving = true;
+                bot.linearSlide.setPower(-gamepad1.right_trigger);
+            } else if (gamepad1.left_trigger > .1) {
+                // DOWN
+                slideMoving = true;
+                bot.linearSlide.setPower(gamepad1.left_trigger);
+            } else if (slideMoving) {
+                slideMoving = false;
+                telemetry.addData("Linear Slide Position", bot.linearSlide.getCurrentPosition());
+                telemetry.update();
+                bot.linearSlide.setPower(0);
+            }
+            // Lift Control
+            if (gamepad1.dpad_up) {
+                // UP
+                liftMoving = true;
+                bot.linearSlide.setPower(-gamepad1.right_trigger);
+            } else if (gamepad1.dpad_down) {
+                // DOWN
+                liftMoving = true;
+                bot.linearSlide.setPower(gamepad1.left_trigger);
+            } else if (liftMoving) {
+                liftMoving = false;
+                telemetry.addData("Lift Position", bot.lift.getCurrentPosition());
+                telemetry.update();
+                bot.linearSlide.setPower(0);
+            }
         }
     }
 }

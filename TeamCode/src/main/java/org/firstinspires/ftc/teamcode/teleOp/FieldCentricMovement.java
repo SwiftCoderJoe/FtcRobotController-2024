@@ -75,13 +75,13 @@ public class FieldCentricMovement extends LinearOpMode {
                 bButtonState = true;
                 // Closer to the rear of the bot
                 bot.handleRotator.setPosition(0);
-                bot.topOfSlide.setPosition(0.29);
+                bot.topOfSlide.setPosition(0.25);
             }
             if (!gamepad1.b && bButtonState) {
                 bButtonState = false;
                 // Normal 'b button state'
                 bot.handleRotator.setPosition(0);
-                bot.topOfSlide.setPosition(0.34);
+                bot.topOfSlide.setPosition(0.30);
             }
 
             // Up State
