@@ -49,11 +49,11 @@ public class Robot {
 
         linearSlide = hardwareMap.dcMotor.get("linear_slide"); // expansion hub port 0
         linearSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        // linearSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         linearSlide.setDirection(DcMotorSimple.Direction.REVERSE);
 
         lift = hardwareMap.dcMotor.get("lift");
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // Servos
         topOfSlide = hardwareMap.servo.get("top_of_slide"); // expansion port 0

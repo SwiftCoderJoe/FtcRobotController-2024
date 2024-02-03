@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.teleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name="Linear Slide Homing", group="Skula and Joe")
 public class LinearSlideHoming extends LinearOpMode {
@@ -13,6 +14,7 @@ public class LinearSlideHoming extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Robot bot = new Robot(hardwareMap);
+        bot.linearSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
 

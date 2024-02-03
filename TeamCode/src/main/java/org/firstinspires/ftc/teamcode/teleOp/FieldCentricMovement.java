@@ -13,7 +13,6 @@ public class FieldCentricMovement extends LinearOpMode {
 
         Robot bot = new Robot(hardwareMap);
 
-        // For some reason front left motor is being weird
         bot.leftRearMotor.setDirection(DcMotor.Direction.FORWARD);
         bot.leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         bot.rightRearMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -21,9 +20,14 @@ public class FieldCentricMovement extends LinearOpMode {
 
         // Button States
         boolean aButtonState = false;
-        boolean bButtonState = false;
+        // Pretend the B button started pressed so we can reset the servo position every time
+        boolean bButtonState = true;
         boolean xButtonState = false;
         boolean rightBumperButtonState = false;
+
+        // Temporary button states for GP2 single-click linear slide
+        boolean rightBumperState = false;
+        boolean leftBumperState = false;
 
         // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -34,6 +38,10 @@ public class FieldCentricMovement extends LinearOpMode {
         imu.initialize(parameters);
 
         waitForStart();
+
+//        bot.linearSlide.setTargetPosition(0);
+//        bot.linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        bot.linearSlide.setPower(.8);
 
         if (isStopRequested()) return;
 
@@ -75,13 +83,13 @@ public class FieldCentricMovement extends LinearOpMode {
                 bButtonState = true;
                 // Closer to the rear of the bot
                 bot.handleRotator.setPosition(0);
-                bot.topOfSlide.setPosition(0.25);
+                bot.topOfSlide.setPosition(0.21);
             }
             if (!gamepad1.b && bButtonState) {
                 bButtonState = false;
                 // Normal 'b button state'
                 bot.handleRotator.setPosition(0);
-                bot.topOfSlide.setPosition(0.30);
+                bot.topOfSlide.setPosition(0.26);
             }
 
             // Up State
@@ -93,7 +101,7 @@ public class FieldCentricMovement extends LinearOpMode {
             if (gamepad1.x && !xButtonState) {
                 xButtonState = true;
                 bot.handleRotator.setPosition(
-                        bot.handleRotator.getPosition() == 0 ? 0.5 : 0
+                        bot.handleRotator.getPosition() == 0 ? 0.95 : 0
                 );
             } else if (!gamepad1.x) {
                 xButtonState = false;
@@ -129,6 +137,20 @@ public class FieldCentricMovement extends LinearOpMode {
             } else {
                 bot.linearSlide.setPower(0);
             }
+
+//            if (gamepad2.right_bumper && !rightBumperState) {
+//                rightBumperState = true;
+//                bot.linearSlide.setTargetPosition(-1900);
+//            } else if (!gamepad2.left_bumper) {
+//                rightBumperState = false;
+//            }
+//
+//            if (gamepad2.left_bumper && !leftBumperState) {
+//                leftBumperState = true;
+//                bot.linearSlide.setTargetPosition(0);
+//            } else if (!gamepad2.left_bumper) {
+//                leftBumperState = false;
+//            }
 
             // Lift Control
             // For now, we won't use an encoder and instead just hope we don't over run the spool
