@@ -52,10 +52,10 @@ public class AutoFarBlue extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Drive forward for 0.02 seconds
-        bot.leftRearMotor.setPower(FORWARD_SPEED);
+        bot.leftRearMotor.setPower(FORWARD_SPEED * bot.SPEED_CORRECTION_FACTOR);
         bot.leftFrontMotor.setPower(FORWARD_SPEED);
-        bot.rightRearMotor.setPower(FORWARD_SPEED);
-        bot.rightFrontMotor.setPower(FORWARD_SPEED);
+        bot.rightRearMotor.setPower(FORWARD_SPEED * bot.SPEED_CORRECTION_FACTOR);
+        bot.rightFrontMotor.setPower(FORWARD_SPEED * bot.SPEED_CORRECTION_FACTOR);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 0.02)) {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
@@ -63,10 +63,10 @@ public class AutoFarBlue extends LinearOpMode {
         telemetry.update();
 
         // Step 2:  Spin left for 1.22 seconds
-        bot.leftRearMotor.setPower(-TURN_SPEED);
+        bot.leftRearMotor.setPower(-TURN_SPEED * bot.SPEED_CORRECTION_FACTOR);
         bot.leftFrontMotor.setPower(-TURN_SPEED);
-        bot.rightRearMotor.setPower(TURN_SPEED);
-        bot.rightFrontMotor.setPower(TURN_SPEED);
+        bot.rightRearMotor.setPower(TURN_SPEED * bot.SPEED_CORRECTION_FACTOR);
+        bot.rightFrontMotor.setPower(TURN_SPEED * bot.SPEED_CORRECTION_FACTOR);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.22)) {
             telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
@@ -74,10 +74,10 @@ public class AutoFarBlue extends LinearOpMode {
         telemetry.update();
 
         // Step 3:  Drive Forward for 4.6 Seconds
-        bot.leftRearMotor.setPower(FORWARD_SPEED);
+        bot.leftRearMotor.setPower(FORWARD_SPEED * bot.SPEED_CORRECTION_FACTOR);
         bot.leftFrontMotor.setPower(FORWARD_SPEED);
-        bot.rightRearMotor.setPower(FORWARD_SPEED);
-        bot.rightFrontMotor.setPower(FORWARD_SPEED);
+        bot.rightRearMotor.setPower(FORWARD_SPEED * bot.SPEED_CORRECTION_FACTOR);
+        bot.rightFrontMotor.setPower(FORWARD_SPEED * bot.SPEED_CORRECTION_FACTOR);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 4.6)) {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
