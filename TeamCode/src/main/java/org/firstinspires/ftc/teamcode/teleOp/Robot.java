@@ -19,6 +19,8 @@ public class Robot {
     public final Servo topOfSlide;
     public final Servo handleRotator;
 
+    public final Servo planeLauncher;
+
     // Front left wheel is 312 rpm
     // 312 / 435 = .7172
     // Therefore we want to scale all motors except front left by this amount, until this is rectified
@@ -58,5 +60,6 @@ public class Robot {
         // Servos
         topOfSlide = hardwareMap.servo.get("top_of_slide"); // expansion port 0
         handleRotator = hardwareMap.servo.get("handle_rotator"); // expansion port 1
+        planeLauncher = hardwareMap.servo.get("plane_launcher"); // expansion port 2
     }
 }

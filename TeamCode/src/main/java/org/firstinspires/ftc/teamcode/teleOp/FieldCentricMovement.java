@@ -162,6 +162,12 @@ public class FieldCentricMovement extends LinearOpMode {
                 bot.lift.setPower(0);
             }
 
+            if (gamepad1.dpad_right) {
+                bot.planeLauncher.setPosition(1);
+            } else {
+                bot.planeLauncher.setPosition(0.5);
+            }
+
             /* OLD CODE FROM LAST YEAR
             if (gamepad1.dpad_left) {
                 v4b.setPosition(0);
