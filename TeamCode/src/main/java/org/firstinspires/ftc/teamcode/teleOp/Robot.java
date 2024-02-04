@@ -68,6 +68,6 @@ public class Robot {
 
     void setPanStandardPosition() {
         this.handleRotator.setPosition(0.15);
-        this.topOfSlide.setPosition(0.35);
+        this.topOfSlide.setPosition(0.34);
     }
 }

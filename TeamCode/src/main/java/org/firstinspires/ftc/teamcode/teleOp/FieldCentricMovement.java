@@ -83,7 +83,7 @@ public class FieldCentricMovement extends LinearOpMode {
                 bButtonState = true;
                 // Closer to the rear of the bot
                 bot.handleRotator.setPosition(0);
-                bot.topOfSlide.setPosition(0.26);
+                bot.topOfSlide.setPosition(0.28);
             }
             if (!gamepad1.b && bButtonState) {
                 bButtonState = false;
@@ -93,14 +93,14 @@ public class FieldCentricMovement extends LinearOpMode {
 
             // Up State
             if (gamepad1.y) {
-                bot.topOfSlide.setPosition(0.5);
+                bot.topOfSlide.setPosition(0.65);
             }
 
             // Dump State
             if (gamepad1.x && !xButtonState) {
                 xButtonState = true;
                 bot.handleRotator.setPosition(
-                        bot.handleRotator.getPosition() <= 0.15 ? 0.95 : 0.15
+                        bot.handleRotator.getPosition() <= 0.20 ? 0.95 : 0.15
                 );
             } else if (!gamepad1.x) {
                 xButtonState = false;
