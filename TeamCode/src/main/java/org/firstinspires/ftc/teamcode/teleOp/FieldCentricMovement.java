@@ -72,10 +72,10 @@ public class FieldCentricMovement extends LinearOpMode {
 
             double scalar = (speedVar) / Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
 
-            bot.rightFrontMotor.setPower((-rx + y - x) * scalar * bot.SPEED_CORRECTION_FACTOR);
+            bot.rightFrontMotor.setPower((-rx + y - x) * scalar);
             bot.leftFrontMotor.setPower((rx + y + x) * scalar);
-            bot.rightRearMotor.setPower((-rx + y + x) * scalar * bot.SPEED_CORRECTION_FACTOR);
-            bot.leftRearMotor.setPower((rx + y - x) * scalar * bot.SPEED_CORRECTION_FACTOR);
+            bot.rightRearMotor.setPower((-rx + y + x) * scalar);
+            bot.leftRearMotor.setPower((-rx - y + x) * scalar);
 
             // Neutral State
             if (gamepad1.b && !bButtonState) {
@@ -129,11 +129,18 @@ public class FieldCentricMovement extends LinearOpMode {
             // Linear Slide Control
             if (gamepad1.right_trigger > .1) {
                 // UP
+                // Lean it back while going up
+                bot.topOfSlide.setPosition(0.2);
+                bot.blackWheels.setPower(0.5 * gamepad1.right_trigger);
                 bot.linearSlide.setPower(-gamepad1.right_trigger);
             } else if (gamepad1.left_trigger > .1) {
                 // DOWN
+                // Lean it back while going up
+                bot.topOfSlide.setPosition(0.2);
+                bot.blackWheels.setPower(-0.5 * gamepad1.left_trigger);
                 bot.linearSlide.setPower(gamepad1.left_trigger);
             } else {
+                bot.blackWheels.setPower(0);
                 bot.linearSlide.setPower(0);
             }
 
@@ -154,18 +161,19 @@ public class FieldCentricMovement extends LinearOpMode {
             // Lift Control
             // For now, we won't use an encoder and instead just hope we don't over run the spool
             if (gamepad1.dpad_up) {
-                bot.lift.setPower(1);
+                bot.lift.setPower(0.8);
             } else if (gamepad1.dpad_down) {
-                bot.lift.setPower(-1);
+                bot.lift.setPower(-0.8);
             } else {
                 bot.lift.setPower(0);
             }
-
+            /*
             if (gamepad1.dpad_right) {
                 bot.planeLauncher.setPosition(0);
             } else {
                 bot.planeLauncher.setPosition(0.5);
             }
+            */
 
             /* OLD CODE FROM LAST YEAR
             if (gamepad1.dpad_left) {
