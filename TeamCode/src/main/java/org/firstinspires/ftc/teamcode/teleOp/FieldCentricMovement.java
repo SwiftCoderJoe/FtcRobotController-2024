@@ -25,6 +25,9 @@ public class FieldCentricMovement extends LinearOpMode {
         boolean xButtonState = false;
         boolean rightBumperButtonState = false;
 
+        boolean blackWheelsOverride = false;
+        double blackWheelsTargetPower = 0;
+
         // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
         // Adjust the orientation parameters to match the robot
@@ -83,8 +86,8 @@ public class FieldCentricMovement extends LinearOpMode {
             // Black Wheels
             if (gamepad1.a && !aButtonState) {
                 aButtonState = true;
-                bot.blackWheels.setPower(
-                        bot.blackWheels.getPower() == 0 ? .9 : 0
+                blackWheelsTargetPower = (
+                        blackWheelsTargetPower <= 0 ? .9 : 0
                 );
             } else if (!gamepad1.a) {
                 aButtonState = false;
@@ -93,8 +96,8 @@ public class FieldCentricMovement extends LinearOpMode {
             // Reverse Black Wheels
             if (gamepad1.right_bumper && !rightBumperButtonState) {
                 rightBumperButtonState = true;
-                bot.blackWheels.setPower(
-                        bot.blackWheels.getPower() <= 0 ? -0.5 : 0
+                blackWheelsTargetPower = (
+                        blackWheelsTargetPower >= 0 ? -0.9 : 0
                 );
             } else if (!gamepad1.right_bumper) {
                 rightBumperButtonState = false;
@@ -104,17 +107,19 @@ public class FieldCentricMovement extends LinearOpMode {
             if (gamepad1.right_trigger > .1) {
                 // UP
                 // Lean it back while going up
+                blackWheelsOverride = true;
                 bot.topOfSlide.setPosition(0.2);
                 bot.blackWheels.setPower(0.5 * gamepad1.right_trigger);
                 bot.linearSlide.setPower(-gamepad1.right_trigger);
             } else if (gamepad1.left_trigger > .1) {
                 // DOWN
                 // Lean it back while going up
+                blackWheelsOverride = true;
                 bot.topOfSlide.setPosition(0.2);
                 bot.blackWheels.setPower(-0.5 * gamepad1.left_trigger);
                 bot.linearSlide.setPower(gamepad1.left_trigger);
             } else {
-                bot.blackWheels.setPower(0);
+                blackWheelsOverride = false;
                 bot.linearSlide.setPower(0);
             }
 
@@ -127,38 +132,12 @@ public class FieldCentricMovement extends LinearOpMode {
             } else {
                 bot.lift.setPower(0);
             }
-            /*
-            if (gamepad1.dpad_right) {
-                bot.planeLauncher.setPosition(0);
-            } else {
-                bot.planeLauncher.setPosition(0.5);
-            }
-            */
 
-            /* OLD CODE FROM LAST YEAR
-            if (gamepad1.dpad_left) {
-                v4b.setPosition(0);
+            if (!blackWheelsOverride) {
+                bot.blackWheels.setPower(blackWheelsTargetPower);
             }
-            if (gamepad1.dpad_right) {
-                v4b.setPosition(0.7);
-            }
-            if (gamepad1.dpad_up) {
-                leftLinkage.setTargetPosition(leftLinkage.getTargetPosition()-2);
-                rightLinkage.setTargetPosition(rightLinkage.getTargetPosition()+2);
-                leftLinkage.setPower(1);
-                rightLinkage.setPower(1);
-                leftLinkage.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightLinkage.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
-            if (gamepad1.dpad_down) {
-                leftLinkage.setTargetPosition(leftLinkage.getTargetPosition()+2);
-                rightLinkage.setTargetPosition(rightLinkage.getTargetPosition()-2);
-                leftLinkage.setPower(1);
-                rightLinkage.setPower(1);
-                leftLinkage.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                rightLinkage.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
-            */
+
+
         }
     }
 }
