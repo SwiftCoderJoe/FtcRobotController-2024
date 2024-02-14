@@ -25,10 +25,6 @@ public class FieldCentricMovement extends LinearOpMode {
         boolean xButtonState = false;
         boolean rightBumperButtonState = false;
 
-        // Temporary button states for GP2 single-click linear slide
-        boolean rightBumperState = false;
-        boolean leftBumperState = false;
-
         // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
         // Adjust the orientation parameters to match the robot
@@ -143,20 +139,6 @@ public class FieldCentricMovement extends LinearOpMode {
                 bot.blackWheels.setPower(0);
                 bot.linearSlide.setPower(0);
             }
-
-//            if (gamepad2.right_bumper && !rightBumperState) {
-//                rightBumperState = true;
-//                bot.linearSlide.setTargetPosition(-1900);
-//            } else if (!gamepad2.left_bumper) {
-//                rightBumperState = false;
-//            }
-//
-//            if (gamepad2.left_bumper && !leftBumperState) {
-//                leftBumperState = true;
-//                bot.linearSlide.setTargetPosition(0);
-//            } else if (!gamepad2.left_bumper) {
-//                leftBumperState = false;
-//            }
 
             // Lift Control
             // For now, we won't use an encoder and instead just hope we don't over run the spool
