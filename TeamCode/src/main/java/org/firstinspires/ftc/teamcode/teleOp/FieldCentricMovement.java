@@ -35,10 +35,6 @@ public class FieldCentricMovement extends LinearOpMode {
 
         waitForStart();
 
-//        bot.linearSlide.setTargetPosition(0);
-//        bot.linearSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        bot.linearSlide.setPower(.8);
-
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
