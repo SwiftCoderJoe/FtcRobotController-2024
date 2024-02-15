@@ -27,76 +27,28 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 // Please place the robot so the left wheel is aligned with the left of the three strips
 
 @Autonomous(name="Far Autonomous: RED", group="Skula and Joe")
-public class AutoFarRed extends LinearOpMode {
-
-    static final double     FORWARD_SPEED = 0.6;
-    static final double     TURN_SPEED    = 0.5;
-
-    private ElapsedTime     runtime = new ElapsedTime();
+public class AutoFarRed extends BaseAuto {
     @Override
     public void runOpMode() {
         Robot bot = new Robot(hardwareMap);
+        setRobot(bot); // Set the Robot instance
 
-        bot.leftRearMotor.setDirection(DcMotor.Direction.FORWARD);
-        bot.leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
-        bot.rightRearMotor.setDirection(DcMotor.Direction.FORWARD);
-        bot.rightFrontMotor.setDirection(DcMotor.Direction.FORWARD);
-
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Ready to run");    //
+        telemetry.addData("Status", "Ready to run");
         telemetry.update();
 
-        // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        bot.setPanStandardPosition();
+        bot.setPanStandardPosition(); // Call setPanStandardPosition()
 
-        // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
-
-        // Step 1:  Drive forward for 0.02 seconds
-        bot.leftRearMotor.setPower(FORWARD_SPEED);
-        bot.leftFrontMotor.setPower(FORWARD_SPEED);
-        bot.rightRearMotor.setPower(FORWARD_SPEED);
-        bot.rightFrontMotor.setPower(FORWARD_SPEED);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < (0.02))) {
-            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
-        }
-        telemetry.update();
-
-        // Step 2:  Spin left for 1.22 seconds
-        bot.leftRearMotor.setPower(TURN_SPEED);
-        bot.leftFrontMotor.setPower(TURN_SPEED);
-        bot.rightRearMotor.setPower(-TURN_SPEED);
-        bot.rightFrontMotor.setPower(-TURN_SPEED);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.22)) {
-            telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
-        }
-        telemetry.update();
-
-        // Step 3:  Drive Forward for 4.6 Seconds
-        bot.leftRearMotor.setPower(FORWARD_SPEED);
-        bot.leftFrontMotor.setPower(FORWARD_SPEED);
-        bot.rightRearMotor.setPower(FORWARD_SPEED);
-        bot.rightFrontMotor.setPower(FORWARD_SPEED);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < (4.6))) {
-            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
-        }
-        telemetry.update();
-
-        // Step 4:  Stop
-        bot.leftRearMotor.setPower(0);
-        bot.leftFrontMotor.setPower(0);
-        bot.rightRearMotor.setPower(0);
-        bot.rightFrontMotor.setPower(0);
+        driveForward(0.02);
+        spinRight(1.22);
+        driveForward(4.6);
+        stopRobot();
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
 
-        // Wait until the end
         while(opModeIsActive()) { }
     }
 }
