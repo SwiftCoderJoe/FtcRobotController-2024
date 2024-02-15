@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.teleOp;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import java.util.List;
 
 public class Robot {
     // Motors
@@ -22,8 +24,7 @@ public class Robot {
     public final Servo handleRotator;
 
     public final Servo planeLauncher;
-
-    public final DistanceSensor distanceSensor;
+    public final ColorSensor colorSensor;
 
 
     public Robot(HardwareMap hardwareMap) {
@@ -61,12 +62,14 @@ public class Robot {
         handleRotator = hardwareMap.servo.get("handle_rotator"); // expansion port 5
         planeLauncher = hardwareMap.servo.get("plane_launcher"); // expansion port 2
 
-        // Distance Sensor
-        distanceSensor = hardwareMap.get(DistanceSensor.class, "distance_sensor");
+        // Sensors
+        colorSensor = hardwareMap.get(ColorSensor.class, "color_sensor");
     }
 
     void setPanStandardPosition() {
         this.handleRotator.setPosition(0.15);
         this.topOfSlide.setPosition(0.23);
     }
+
+
 }

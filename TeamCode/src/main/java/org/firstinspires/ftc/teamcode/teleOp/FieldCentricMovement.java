@@ -6,12 +6,16 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import java.util.List;
 
 @TeleOp(name="TeleOp", group="Skula and Joe")
 public class FieldCentricMovement extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
+
+        telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
+        telemetry.addData(">", "Touch Play to start OpMode");
+        telemetry.update();
 
         Robot bot = new Robot(hardwareMap);
 
@@ -45,9 +49,9 @@ public class FieldCentricMovement extends LinearOpMode {
         while (opModeIsActive()) {
             double speedVar = gamepad1.left_bumper ? .3 : 1;
 
-            float y = -gamepad1.left_stick_y;
-            float x = gamepad1.left_stick_x;
-            float rx = gamepad1.right_stick_x;
+            float y = -gamepad1.left_stick_y * 0.75f;
+            float x = gamepad1.left_stick_x * 0.75f;
+            float rx = gamepad1.right_stick_x * 0.75f;
 
             double scalar = (speedVar) / Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
 
@@ -62,11 +66,6 @@ public class FieldCentricMovement extends LinearOpMode {
                 // Closer to the rear of the bot
                 bot.handleRotator.setPosition(0);
                 bot.topOfSlide.setPosition(0.23);
-                telemetry.addData("Bruh", "bruh!");
-                telemetry.addData("distance", bot.distanceSensor.getDistance(DistanceUnit.CM));
-                telemetry.addData("status", bot.distanceSensor.getConnectionInfo());
-                telemetry.addData("dev", bot.distanceSensor.getDeviceName());
-                telemetry.update();
             }
             if (!gamepad1.x && bButtonState) {
                 bButtonState = false;
@@ -76,7 +75,14 @@ public class FieldCentricMovement extends LinearOpMode {
 
             // Up State
             if (gamepad1.y) {
-                bot.topOfSlide.setPosition(0.70);
+                bot.topOfSlide.setPosition(0.6);
+                // Drive robot slowly until RGB above 30
+                while (bot.colorSensor.red() < 30 || bot.colorSensor.green() < 30 || bot.colorSensor.blue() < 30) {
+                    bot.rightFrontMotor.setPower(0.2);
+                    bot.leftFrontMotor.setPower(0.2);
+                    bot.rightRearMotor.setPower(0.2);
+                    bot.leftRearMotor.setPower(-0.2);
+                }
             }
 
             // Dump State
@@ -94,7 +100,7 @@ public class FieldCentricMovement extends LinearOpMode {
             if (gamepad1.a && !aButtonState) {
                 aButtonState = true;
                 blackWheelsTargetPower = (
-                        blackWheelsTargetPower <= 0 ? .9 : 0
+                        blackWheelsTargetPower <= 0 ? .5 : 0
                 );
             } else if (!gamepad1.a) {
                 aButtonState = false;
@@ -131,9 +137,9 @@ public class FieldCentricMovement extends LinearOpMode {
             // Lift Control
             // For now, we won't use an encoder and instead just hope we don't over run the spool
             if (gamepad1.dpad_up) {
-                bot.lift.setPower(0.8);
+                bot.lift.setPower(1);
             } else if (gamepad1.dpad_down) {
-                bot.lift.setPower(-0.8);
+                bot.lift.setPower(-1);
             } else {
                 bot.lift.setPower(0);
             }
@@ -147,6 +153,10 @@ public class FieldCentricMovement extends LinearOpMode {
             if (!blackWheelsOverride) {
                 bot.blackWheels.setPower(blackWheelsTargetPower);
             }
+            telemetry.addData("Red", bot.colorSensor.red());
+            telemetry.addData("Green", bot.colorSensor.green());
+            telemetry.addData("Blue", bot.colorSensor.blue());
+            telemetry.update();
         }
     }
 }
