@@ -20,8 +20,6 @@ public class FieldCentricMovement extends LinearOpMode {
         bot.rightRearMotor.setDirection(DcMotor.Direction.FORWARD);
         bot.rightFrontMotor.setDirection(DcMotor.Direction.FORWARD);
 
-//        bot.distanceSensor.enableLed(true);
-
         // Button States
         boolean aButtonState = false;
         // Pretend the B button started pressed so we can reset the servo position every time
@@ -60,12 +58,17 @@ public class FieldCentricMovement extends LinearOpMode {
 
             // Neutral State
             if (gamepad1.b && !bButtonState) {
-                xButtonState = false;
                 bButtonState = true;
                 // Closer to the rear of the bot
                 bot.handleRotator.setPosition(0);
-                bot.topOfSlide.setPosition(0.28);
-            } else if (bButtonState) {
+                bot.topOfSlide.setPosition(0.23);
+                telemetry.addData("Bruh", "bruh!");
+                telemetry.addData("distance", bot.distanceSensor.getDistance(DistanceUnit.CM));
+                telemetry.addData("status", bot.distanceSensor.getConnectionInfo());
+                telemetry.addData("dev", bot.distanceSensor.getDeviceName());
+                telemetry.update();
+            }
+            if (!gamepad1.x && bButtonState) {
                 bButtonState = false;
                 // Normal 'b button state'
                 bot.setPanStandardPosition();
@@ -73,7 +76,7 @@ public class FieldCentricMovement extends LinearOpMode {
 
             // Up State
             if (gamepad1.y) {
-                bot.topOfSlide.setPosition(0.65);
+                bot.topOfSlide.setPosition(0.70);
             }
 
             // Dump State
@@ -82,7 +85,8 @@ public class FieldCentricMovement extends LinearOpMode {
                 bot.handleRotator.setPosition(
                         bot.handleRotator.getPosition() <= 0.20 ? 0.95 : 0.15
                 );
-            } else if (!gamepad1.x) {
+            }
+            if (!gamepad1.x && xButtonState) {
                 xButtonState = false;
             }
 
@@ -143,11 +147,6 @@ public class FieldCentricMovement extends LinearOpMode {
             if (!blackWheelsOverride) {
                 bot.blackWheels.setPower(blackWheelsTargetPower);
             }
-
-            telemetry.addData("Bruh", "bruh!");
-            telemetry.addData("distance", bot.distanceSensor.getDistance(DistanceUnit.MM));
-//            telemetry.addData("status", bot.distanceSensor.status());
-            telemetry.update();
         }
     }
 }
