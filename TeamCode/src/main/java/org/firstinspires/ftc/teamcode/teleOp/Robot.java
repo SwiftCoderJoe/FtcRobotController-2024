@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Robot {
@@ -20,7 +21,9 @@ public class Robot {
     public final Servo topOfSlide;
     public final Servo handleRotator;
 
-    //public final Servo planeLauncher;
+    public final Servo planeLauncher;
+
+    public final DistanceSensor distanceSensor;
 
 
     public Robot(HardwareMap hardwareMap) {
@@ -56,7 +59,10 @@ public class Robot {
         // Servos
         topOfSlide = hardwareMap.servo.get("top_of_slide"); // expansion port 1
         handleRotator = hardwareMap.servo.get("handle_rotator"); // expansion port 5
-        //planeLauncher = hardwareMap.servo.get("plane_launcher"); // expansion port X
+        planeLauncher = hardwareMap.servo.get("plane_launcher"); // expansion port 2
+
+        // Distance Sensor
+        distanceSensor = hardwareMap.get(DistanceSensor.class, "distance_sensor");
     }
 
     void setPanStandardPosition() {

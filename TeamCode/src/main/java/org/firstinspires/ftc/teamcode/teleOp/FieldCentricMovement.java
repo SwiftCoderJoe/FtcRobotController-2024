@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 @TeleOp(name="TeleOp", group="Skula and Joe")
 public class FieldCentricMovement extends LinearOpMode {
     @Override
@@ -17,6 +19,8 @@ public class FieldCentricMovement extends LinearOpMode {
         bot.leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
         bot.rightRearMotor.setDirection(DcMotor.Direction.FORWARD);
         bot.rightFrontMotor.setDirection(DcMotor.Direction.FORWARD);
+
+//        bot.distanceSensor.enableLed(true);
 
         // Button States
         boolean aButtonState = false;
@@ -61,8 +65,7 @@ public class FieldCentricMovement extends LinearOpMode {
                 // Closer to the rear of the bot
                 bot.handleRotator.setPosition(0);
                 bot.topOfSlide.setPosition(0.28);
-            }
-            if (!gamepad1.b && bButtonState) {
+            } else if (bButtonState) {
                 bButtonState = false;
                 // Normal 'b button state'
                 bot.setPanStandardPosition();
@@ -108,14 +111,12 @@ public class FieldCentricMovement extends LinearOpMode {
                 // UP
                 // Lean it back while going up
                 blackWheelsOverride = true;
-                bot.topOfSlide.setPosition(0.2);
                 bot.blackWheels.setPower(0.5 * gamepad1.right_trigger);
                 bot.linearSlide.setPower(-gamepad1.right_trigger);
             } else if (gamepad1.left_trigger > .1) {
                 // DOWN
                 // Lean it back while going up
                 blackWheelsOverride = true;
-                bot.topOfSlide.setPosition(0.2);
                 bot.blackWheels.setPower(-0.5 * gamepad1.left_trigger);
                 bot.linearSlide.setPower(gamepad1.left_trigger);
             } else {
@@ -133,11 +134,20 @@ public class FieldCentricMovement extends LinearOpMode {
                 bot.lift.setPower(0);
             }
 
+            if (gamepad1.dpad_right) {
+                bot.planeLauncher.setPosition(0);
+            } else {
+                bot.planeLauncher.setPosition(0.5);
+            }
+
             if (!blackWheelsOverride) {
                 bot.blackWheels.setPower(blackWheelsTargetPower);
             }
 
-
+            telemetry.addData("Bruh", "bruh!");
+            telemetry.addData("distance", bot.distanceSensor.getDistance(DistanceUnit.MM));
+//            telemetry.addData("status", bot.distanceSensor.status());
+            telemetry.update();
         }
     }
 }
