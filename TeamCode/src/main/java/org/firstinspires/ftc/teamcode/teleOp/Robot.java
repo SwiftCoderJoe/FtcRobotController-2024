@@ -24,6 +24,7 @@ public class Robot {
     public final Servo handleRotator;
 
     public final Servo planeLauncher;
+    public final Servo goat;
     public final ColorSensor colorSensor;
 
 
@@ -61,6 +62,7 @@ public class Robot {
         topOfSlide = hardwareMap.servo.get("top_of_slide"); // expansion port 1
         handleRotator = hardwareMap.servo.get("handle_rotator"); // expansion port 5
         planeLauncher = hardwareMap.servo.get("plane_launcher"); // expansion port 2
+        goat = hardwareMap.servo.get("goat"); // expansion port ???
 
         // Sensors
         colorSensor = hardwareMap.get(ColorSensor.class, "color_sensor");

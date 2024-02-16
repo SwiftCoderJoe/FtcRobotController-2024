@@ -83,6 +83,8 @@ public class FieldCentricMovement extends LinearOpMode {
                     bot.rightRearMotor.setPower(0.2);
                     bot.leftRearMotor.setPower(-0.2);
                 }
+                // Maybe this will work? Goat stuff
+                bot.goat.setPosition(0.8);
             }
 
             // Dump State
@@ -91,6 +93,7 @@ public class FieldCentricMovement extends LinearOpMode {
                 bot.handleRotator.setPosition(
                         bot.handleRotator.getPosition() <= 0.20 ? 0.95 : 0.15
                 );
+                bot.goat.setPosition(0);
             }
             if (!gamepad1.x && xButtonState) {
                 xButtonState = false;
