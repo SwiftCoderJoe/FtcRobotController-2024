@@ -42,11 +42,11 @@ public class FieldCentricMovement extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            double speedVar = gamepad1.left_bumper ? .3 : 1;
+            double speedVar = gamepad1.left_bumper ? .3 : .75;
 
-            float y = -gamepad1.left_stick_y * 0.75f;
-            float x = gamepad1.left_stick_x * 0.75f;
-            float rx = gamepad1.right_stick_x * 0.75f;
+            float y = -gamepad1.left_stick_y;
+            float x = gamepad1.left_stick_x;
+            float rx = gamepad1.right_stick_x;
 
             double scalar = (speedVar) / Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
 
