@@ -29,16 +29,16 @@ public abstract class BaseAuto extends LinearOpMode {
     }
 
     protected void stopRobot() {
-        drive(0, 0, 0);
+        drive(0, 0, 0.1);
     }
 
     private void drive(double leftPower, double rightPower, double seconds) {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < seconds)) {
             bot.leftRearMotor.setPower(leftPower);
-            bot.leftFrontMotor.setPower(leftPower);
-            bot.rightRearMotor.setPower(rightPower);
-            bot.rightFrontMotor.setPower(rightPower);
+            bot.leftFrontMotor.setPower(leftPower * 0.9);
+            bot.rightRearMotor.setPower(rightPower * 0.9);
+            bot.rightFrontMotor.setPower(rightPower * 0.9);
 
             telemetry.addData("Path", "Elapsed: %4.1f S", runtime.seconds());
             telemetry.update();
