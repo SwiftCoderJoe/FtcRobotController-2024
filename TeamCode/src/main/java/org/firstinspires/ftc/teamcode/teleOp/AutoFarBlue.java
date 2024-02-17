@@ -20,8 +20,8 @@ public class AutoFarBlue extends BaseAuto {
         bot.lift.setPower(-.5);
 
         driveForward(0.02);
-        spinLeft(.8);
-        driveForward(3.5);
+        spinLeft(.78);
+        driveForward(3.0);
         bot.lift.setPower(0);
         stopRobot();
 

@@ -43,8 +43,8 @@ public class AutoFarRed extends BaseAuto {
         bot.lift.setPower(-.5);
 
         driveForward(0.02);
-        spinRight(.8);
-        driveForward(3.5);
+        spinRight(.78);
+        driveForward(3.0);
         bot.lift.setPower(0);
         stopRobot();
 
