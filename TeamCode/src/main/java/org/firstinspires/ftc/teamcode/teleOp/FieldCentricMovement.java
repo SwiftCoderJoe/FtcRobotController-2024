@@ -105,7 +105,8 @@ public class FieldCentricMovement extends LinearOpMode {
                 blackWheelsTargetPower = (
                         blackWheelsTargetPower <= 0 ? .5 : 0
                 );
-            } else if (!gamepad1.a) {
+            }
+            if (!gamepad1.a && aButtonState) {
                 aButtonState = false;
             }
 
