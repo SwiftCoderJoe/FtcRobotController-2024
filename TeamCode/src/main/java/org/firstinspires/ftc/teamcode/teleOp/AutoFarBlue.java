@@ -17,9 +17,12 @@ public class AutoFarBlue extends BaseAuto {
 
         bot.setPanStandardPosition(); // Call setPanStandardPosition()
 
+        bot.lift.setPower(-.5);
+
         driveForward(0.02);
-        spinLeft(1.22);
-        driveForward(4.6);
+        spinLeft(.8);
+        driveForward(3.5);
+        bot.lift.setPower(0);
         stopRobot();
 
         telemetry.addData("Path", "Complete");

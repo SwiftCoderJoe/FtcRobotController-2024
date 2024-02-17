@@ -41,8 +41,8 @@ public class AutoCloseBlue extends BaseAuto {
         bot.setPanStandardPosition(); // Call setPanStandardPosition()
 
         driveForward(0.02);
-        spinLeft(1.22);
-        driveForward(1.5);
+        spinLeft(.8);
+        driveForward(1.2);
         stopRobot();
 
         telemetry.addData("Path", "Complete");

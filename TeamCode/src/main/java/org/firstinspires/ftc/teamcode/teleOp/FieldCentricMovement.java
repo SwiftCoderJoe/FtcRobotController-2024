@@ -42,13 +42,13 @@ public class FieldCentricMovement extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            double speedVar = gamepad1.left_bumper ? .3 : .75;
+            double speedVar = gamepad1.left_bumper ? .25 : .5;
 
             float y = -gamepad1.left_stick_y;
             float x = gamepad1.left_stick_x;
             float rx = gamepad1.right_stick_x;
 
-            double scalar = (speedVar) / Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+            double scalar = Math.max((speedVar) / (Math.abs(y) + Math.abs(x) + Math.abs(rx)), speedVar);
 
             bot.rightFrontMotor.setPower((-rx + y - x) * scalar);
             bot.leftFrontMotor.setPower((rx + y + x) * scalar);
@@ -70,9 +70,9 @@ public class FieldCentricMovement extends LinearOpMode {
 
             // Up State
             if (gamepad1.y) {
-                bot.topOfSlide.setPosition(0.6);
+                bot.topOfSlide.setPosition(0.52);
                 // Drive robot slowly until RGB below 30
-                while (bot.colorSensor.red() < 30 || bot.colorSensor.green() < 30 || bot.colorSensor.blue() < 30 && !gamepad1.left_bumper) {
+                while (opModeIsActive() && bot.colorSensor.red() < 30 && bot.colorSensor.green() < 30 && bot.colorSensor.blue() < 30 && !gamepad1.left_bumper) {
                     bot.rightFrontMotor.setPower(0.2);
                     bot.leftFrontMotor.setPower(0.2);
                     bot.rightRearMotor.setPower(0.2);
