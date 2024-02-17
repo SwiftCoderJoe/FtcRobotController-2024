@@ -77,7 +77,7 @@ public class FieldCentricMovement extends LinearOpMode {
             if (gamepad1.y) {
                 bot.topOfSlide.setPosition(0.6);
                 // Drive robot slowly until RGB above 30
-                while (bot.colorSensor.red() < 30 || bot.colorSensor.green() < 30 || bot.colorSensor.blue() < 30) {
+                while (bot.colorSensor.red() < 30 || bot.colorSensor.green() < 30 || bot.colorSensor.blue() < 30 && !gamepad1.b) {
                     bot.rightFrontMotor.setPower(0.2);
                     bot.leftFrontMotor.setPower(0.2);
                     bot.rightRearMotor.setPower(0.2);
