@@ -19,11 +19,6 @@ public class FieldCentricMovement extends LinearOpMode {
 
         Robot bot = new Robot(hardwareMap);
 
-        bot.leftRearMotor.setDirection(DcMotor.Direction.FORWARD);
-        bot.leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
-        bot.rightRearMotor.setDirection(DcMotor.Direction.FORWARD);
-        bot.rightFrontMotor.setDirection(DcMotor.Direction.FORWARD);
-
         // Button States
         boolean aButtonState = false;
         // Pretend the B button started pressed so we can reset the servo position every time
@@ -58,7 +53,7 @@ public class FieldCentricMovement extends LinearOpMode {
             bot.rightFrontMotor.setPower((-rx + y - x) * scalar);
             bot.leftFrontMotor.setPower((rx + y + x) * scalar);
             bot.rightRearMotor.setPower((-rx + y + x) * scalar);
-            bot.leftRearMotor.setPower((-rx - y + x) * scalar);
+            bot.leftRearMotor.setPower((rx + y - x) * scalar);
 
             // Neutral State
             if (gamepad1.b && !bButtonState) {
@@ -81,7 +76,7 @@ public class FieldCentricMovement extends LinearOpMode {
                     bot.rightFrontMotor.setPower(0.2);
                     bot.leftFrontMotor.setPower(0.2);
                     bot.rightRearMotor.setPower(0.2);
-                    bot.leftRearMotor.setPower(-0.2);
+                    bot.leftRearMotor.setPower(0.2);
                 }
                 // Maybe this will work? Goat stuff
                 bot.goat.setPosition(0.8);

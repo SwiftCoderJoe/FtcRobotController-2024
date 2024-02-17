@@ -14,14 +14,6 @@ public abstract class BaseAuto extends LinearOpMode {
 
     protected void setRobot(Robot robot) {
         this.bot = robot;
-        bot.leftRearMotor.setDirection(DcMotor.Direction.FORWARD);
-        bot.leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
-        bot.rightRearMotor.setDirection(DcMotor.Direction.FORWARD);
-        bot.rightFrontMotor.setDirection(DcMotor.Direction.FORWARD);
-        bot.rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        bot.leftFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        bot.rightRearMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        bot.leftRearMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     protected void driveForward(double seconds) {
