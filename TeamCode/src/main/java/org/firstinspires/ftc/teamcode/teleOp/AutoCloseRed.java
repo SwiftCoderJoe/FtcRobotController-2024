@@ -38,11 +38,38 @@ public class AutoCloseRed extends BaseAuto {
 
         waitForStart();
 
-        bot.setPanStandardPosition(); // Call setPanStandardPosition()
-
-        driveForward(0.02);
+        driveForward(.8);
         spinRight(.8);
-        driveForward(1.2);
+        driveForward(.4);
+        stopRobot();
+
+        bot.linearSlide.setPower(-0.9);
+        bot.blackWheels.setPower(0.4);
+        sleep(2000);
+        bot.linearSlide.setPower(0);
+        bot.blackWheels.setPower(0);
+
+        bot.topOfSlide.setPosition(0.52);
+        while (opModeIsActive() && bot.colorSensor.red() < 30 && bot.colorSensor.green() < 30 && bot.colorSensor.blue() < 30 && !gamepad1.left_bumper) {
+            bot.rightFrontMotor.setPower(0.2);
+            bot.leftFrontMotor.setPower(0.2);
+            bot.rightRearMotor.setPower(0.2);
+            bot.leftRearMotor.setPower(0.2);
+        }
+        bot.rightFrontMotor.setPower(0);
+        bot.leftFrontMotor.setPower(0);
+        bot.rightRearMotor.setPower(0);
+        bot.leftRearMotor.setPower(0);
+
+        bot.handleRotator.setPosition(0.95);
+        sleep(1500);
+        bot.setPanStandardPosition();
+        sleep(500);
+
+
+        spinRight(0.8);
+        sleep(100);
+        driveForward(0.8);
         stopRobot();
 
         telemetry.addData("Path", "Complete");
