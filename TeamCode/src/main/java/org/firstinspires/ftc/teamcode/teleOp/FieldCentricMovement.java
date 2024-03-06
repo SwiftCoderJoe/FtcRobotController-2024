@@ -56,23 +56,23 @@ public class FieldCentricMovement extends LinearOpMode {
             bot.leftRearMotor.setPower((rx + y - x) * scalar);
 
             // Neutral State
-            if (gamepad1.b && !bButtonState) {
+            if (gamepad2.b && !bButtonState) {
                 bButtonState = true;
                 // Closer to the rear of the bot
                 bot.handleRotator.setPosition(0);
                 bot.topOfSlide.setPosition(0.23);
             }
-            if (!gamepad1.x && bButtonState) {
+            if (!gamepad2.x && bButtonState) {
                 bButtonState = false;
                 // Normal 'b button state'
                 bot.setPanStandardPosition();
             }
 
             // Up State
-            if (gamepad1.y) {
+            if (gamepad2.y) {
                 bot.topOfSlide.setPosition(0.52);
                 // Drive robot slowly until RGB below 30
-                while (opModeIsActive() && bot.colorSensor.red() < 30 && bot.colorSensor.green() < 30 && bot.colorSensor.blue() < 30 && !gamepad1.left_bumper) {
+                while (opModeIsActive() && bot.colorSensor.red() < 30 && bot.colorSensor.green() < 30 && bot.colorSensor.blue() < 30 && !gamepad2.left_bumper) {
                     bot.rightFrontMotor.setPower(0.2);
                     bot.leftFrontMotor.setPower(0.2);
                     bot.rightRearMotor.setPower(0.2);
@@ -83,51 +83,51 @@ public class FieldCentricMovement extends LinearOpMode {
             }
 
             // Dump State
-            if (gamepad1.x && !xButtonState) {
+            if (gamepad2.x && !xButtonState) {
                 xButtonState = true;
                 bot.handleRotator.setPosition(
                         bot.handleRotator.getPosition() <= 0.20 ? 0.95 : 0.15
                 );
                 bot.goat.setPosition(0);
             }
-            if (!gamepad1.x && xButtonState) {
+            if (!gamepad2.x && xButtonState) {
                 xButtonState = false;
             }
 
             // Black Wheels
-            if (gamepad1.a && !aButtonState) {
+            if (gamepad2.a && !aButtonState) {
                 aButtonState = true;
                 blackWheelsTargetPower = (
                         blackWheelsTargetPower <= 0 ? .5 : 0
                 );
             }
-            if (!gamepad1.a && aButtonState) {
+            if (!gamepad2.a && aButtonState) {
                 aButtonState = false;
             }
 
             // Reverse Black Wheels
-            if (gamepad1.right_bumper && !rightBumperButtonState) {
+            if (gamepad2.right_bumper && !rightBumperButtonState) {
                 rightBumperButtonState = true;
                 blackWheelsTargetPower = (
                         blackWheelsTargetPower >= 0 ? -0.9 : 0
                 );
-            } else if (!gamepad1.right_bumper) {
+            } else if (!gamepad2.right_bumper) {
                 rightBumperButtonState = false;
             }
 
             // Linear Slide Control
-            if (gamepad1.right_trigger > .1) {
+            if (gamepad2.right_trigger > .1) {
                 // UP
                 // Lean it back while going up
                 blackWheelsOverride = true;
-                bot.blackWheels.setPower(0.5 * gamepad1.right_trigger);
-                bot.linearSlide.setPower(-gamepad1.right_trigger);
-            } else if (gamepad1.left_trigger > .1) {
+                bot.blackWheels.setPower(0.5 * gamepad2.right_trigger);
+                bot.linearSlide.setPower(-gamepad2.right_trigger);
+            } else if (gamepad2.left_trigger > .1) {
                 // DOWN
                 // Lean it back while going up
                 blackWheelsOverride = true;
-                bot.blackWheels.setPower(-0.5 * gamepad1.left_trigger);
-                bot.linearSlide.setPower(gamepad1.left_trigger);
+                bot.blackWheels.setPower(-0.5 * gamepad2.left_trigger);
+                bot.linearSlide.setPower(gamepad2.left_trigger);
             } else {
                 blackWheelsOverride = false;
                 bot.linearSlide.setPower(0);
@@ -143,7 +143,7 @@ public class FieldCentricMovement extends LinearOpMode {
                 bot.lift.setPower(0);
             }
 
-            if (gamepad1.dpad_right) {
+            if (gamepad2.dpad_right) {
                 bot.planeLauncher.setPosition(0);
             } else {
                 bot.planeLauncher.setPosition(0.5);
